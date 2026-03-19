@@ -72,4 +72,4 @@ Ask the AI to explain *why* a fix works, not just what to change. When AI gives 
 
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
 
-AI-generated code can look correct and run without errors while still containing subtle logic bugs — like reversed hint directions or silent type conversions that only trigger on even-numbered attempts. This project taught me to treat AI output as a first draft that needs review, not a finished product I can trust without reading it.
+AI-generated code can look correct and run without errors while still containing subtle logic bugs like reversed hint directions or silent type conversions that only trigger on even-numbered attempts. This project taught me to treat AI output as a first draft that needs review, not a finished product I can trust without reading it.
