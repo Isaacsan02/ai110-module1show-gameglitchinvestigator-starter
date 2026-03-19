@@ -3,7 +3,7 @@
 ## 🚨 The Situation
 
 You asked an AI to build a simple "Number Guessing Game" using Streamlit.
-It wrote the code, ran away, and now the game is unplayable. 
+It wrote the code, ran away, and now the game is unplayable.
 
 - You can't win.
 - The hints lie to you.
@@ -12,7 +12,7 @@ It wrote the code, ran away, and now the game is unplayable.
 ## 🛠️ Setup
 
 1. Install dependencies: `pip install -r requirements.txt`
-2. Run the broken app: `python -m streamlit run app.py`
+2. Run the fixed app: `.venv/bin/streamlit run app.py`
 
 ## 🕵️‍♂️ Your Mission
 
@@ -25,9 +25,15 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- **Game purpose:** A number guessing game where you pick a difficulty, get a limited number of attempts to guess a secret number, and receive higher/lower hints after each guess.
+- **Bugs found:**
+  - The hint direction was backwards — guessing too high displayed "Go HIGHER!" instead of "Go LOWER!".
+  - The New Game button never reset the `status` field in session state, so the game was unplayable after a win or loss.
+  - On every even-numbered attempt, the secret was silently converted to a string before comparison, making integer guesses fail the equality check unexpectedly.
+- **Fixes applied:**
+  - Moved all game logic (`get_range_for_difficulty`, `parse_guess`, `check_guess`, `update_score`) into `logic_utils.py` and corrected the hint messages in `check_guess`.
+  - Fixed the New Game handler in `app.py` to reset `status`, `history`, `score`, `attempts`, and `secret`.
+  - Removed the type-switching bug so `check_guess` always compares integers.
 
 ## 📸 Demo
 

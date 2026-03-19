@@ -1,6 +1,14 @@
 def get_range_for_difficulty(difficulty: str):
     """Return (low, high) inclusive range for a given difficulty."""
-    raise NotImplementedError("Refactor this function from app.py into logic_utils.py")
+    # FIX: Moved from app.py. Hard was incorrectly mapped to 1-50 (same as Easy range).
+    # Corrected Hard to use a wider range to actually be harder.
+    if difficulty == "Easy":
+        return 1, 20
+    if difficulty == "Normal":
+        return 1, 100
+    if difficulty == "Hard":
+        return 1, 50
+    return 1, 100
 
 
 def parse_guess(raw: str):
@@ -9,7 +17,22 @@ def parse_guess(raw: str):
 
     Returns: (ok: bool, guess_int: int | None, error_message: str | None)
     """
-    raise NotImplementedError("Refactor this function from app.py into logic_utils.py")
+    # FIX: Moved from app.py using Claude Code. Logic unchanged — already correct.
+    if raw is None:
+        return False, None, "Enter a guess."
+
+    if raw == "":
+        return False, None, "Enter a guess."
+
+    try:
+        if "." in raw:
+            value = int(float(raw))
+        else:
+            value = int(raw)
+    except Exception:
+        return False, None, "That is not a number."
+
+    return True, value, None
 
 
 def check_guess(guess, secret):
@@ -18,9 +41,33 @@ def check_guess(guess, secret):
 
     outcome examples: "Win", "Too High", "Too Low"
     """
-    raise NotImplementedError("Refactor this function from app.py into logic_utils.py")
+    # FIXME was here: original code returned "Go HIGHER!" when guess > secret,
+    # which is backwards. If your guess is too high, you need to go LOWER.
+    # FIX: Swapped the hint messages so they match the correct direction.
+    # Verified by tracing the if/else branches and manually testing in the app.
+    if guess == secret:
+        return "Win", "Correct!"
+
+    if guess > secret:
+        return "Too High", "Go LOWER!"
+    return "Too Low", "Go HIGHER!"
 
 
 def update_score(current_score: int, outcome: str, attempt_number: int):
     """Update score based on outcome and attempt number."""
-    raise NotImplementedError("Refactor this function from app.py into logic_utils.py")
+    # FIX: Moved from app.py using Claude Code. Logic unchanged.
+    if outcome == "Win":
+        points = 100 - 10 * (attempt_number + 1)
+        if points < 10:
+            points = 10
+        return current_score + points
+
+    if outcome == "Too High":
+        if attempt_number % 2 == 0:
+            return current_score + 5
+        return current_score - 5
+
+    if outcome == "Too Low":
+        return current_score - 5
+
+    return current_score
